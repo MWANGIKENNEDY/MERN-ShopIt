@@ -69,3 +69,22 @@ exports.logoutUser= catchAsyncErrors( async (req,res,next) =>{
         message:'You have been logged out'
     })
 })
+
+
+//forgot password --> api/v1/password/forgot
+exports.forgotPassword = catchAsyncErrors( async (req,res,next) =>{
+
+    //user object
+    const user = await User.findOne({email:req.body.email});
+
+    if(!user){
+        return next(new errorHandler('User with this email was not found.',404))
+        
+    }
+
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save({validateBeforeSave:false})
+
+    
+    })

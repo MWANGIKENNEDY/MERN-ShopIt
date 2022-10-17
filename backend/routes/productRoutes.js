@@ -4,9 +4,9 @@ module.exports=(app)=>{
 
     const product = require('../controllers/productControllers');
 
-    router.get('/',authMid.isAuthenticated, authMid.authorizeRoles('user'),product.getAllProducts);
+    router.get('/',product.getAllProducts);
     router.get('/:productId',product.getOneProduct);
-    router.post('/new',product.newProduct);
+    router.post('/new',authMid.isAuthenticated, authMid.authorizeRoles('user'),product.newProduct);
     router.put('/:productId',product.updateProduct);
     router.delete('/:productId',product.deleteProduct);
 

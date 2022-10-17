@@ -7,10 +7,12 @@ const APIFeatures = require('../utils/apIFilterSearchPage');
 
 
 exports.newProduct= catchAsyncErrors( async(req,res,next)=>{
-        const product= await productModel.create(req.body)
-        res.status(201).json({
-            success: true,
-            product
+    console.log('fffffffffffffff',req.user);
+    req.body.user=req.user._id;
+    const product= await productModel.create(req.body)
+    res.status(201).json({
+        success: true,
+        product
         })
 })
 

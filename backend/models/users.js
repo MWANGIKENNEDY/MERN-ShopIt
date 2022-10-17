@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 
+const crypto = require('crypto');
+
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -71,6 +73,25 @@ userSchema.methods.comparePassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword,this.password);
 
 }
+
+//generate password reset token
+userSchema.methods.getResetPasswordToken = function () {
+    //generate token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    //hash and set to reset password token
+
+    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    //set token expire time
+    this.resetPasswordExpire = Date.now() + 30*60*60;
+
+    //sending password reset token as it is for user to reset their password -- 
+    //hashed version is saved in the database for comparison when user requests for password request
+    return resetToken;
+
+}
+
+
 
 
 

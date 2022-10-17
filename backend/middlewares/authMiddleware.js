@@ -10,7 +10,6 @@ exports.isAuthenticated = catchAsyncErrors( async (req,res,next)=>{
 
     const {token} = req.cookies;
 
-
     if(!token){
 
         return next(new ErrorHandler('Kndly login first to view resources',401))
@@ -23,7 +22,6 @@ exports.isAuthenticated = catchAsyncErrors( async (req,res,next)=>{
 
     //go to next middleware
     next();
-
 
 })
 
